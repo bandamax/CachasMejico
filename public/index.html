@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cancha México · El deporte, cerca de ti</title>
+  <meta name="description" content="Explora instalaciones deportivas reales de México. Encuentra canchas, estadios y espacios comunitarios con datos abiertos.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script defer src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script defer src="core.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+<header><a class="brand" href="/" aria-label="Cancha México, inicio"><span class="brand-icon">◎</span><span>cancha<span class="brand-light">méxico</span><small>ESPACIOS PARA ENCONTRARNOS</small></span></a><span class="header-note">32 estados. Infinitas formas de jugar.</span><button id="stats-open" class="secondary">Ver estadísticas</button></header>
+<main>
+  <aside class="sidebar">
+    <div class="intro"><span class="eyebrow">EL DEPORTE EMPIEZA AQUÍ</span><h1>Encuentra tu<br><em>próxima cancha.</em></h1><p>Del estadio a la cancha del barrio.<br>Explora los espacios deportivos de México.</p></div>
+    <section class="location"><h2><span>◎</span> Tu punto de partida</h2><form id="search-form"><label for="address">Dirección o localidad en México</label><div class="search-row"><input id="address" placeholder="Ej. San Cristóbal de las Casas" minlength="3" required><button id="search-button" type="submit" aria-label="Buscar dirección">Buscar</button></div></form><div id="places"></div><div class="location-actions"><button id="pick-point" class="secondary">Marcar en el mapa</button><button id="clear-point" class="text-button" hidden>Quitar punto</button></div><p id="point-label" class="hint">Tú eliges la ubicación. Sin GPS ni ubicación automática.</p></section>
+    <section class="filters"><div class="section-title"><h2>Explora a tu manera</h2><button id="reset" class="text-button">Limpiar</button></div><label for="state">Estado</label><select id="state"><option value="">Todo México</option></select><div class="filter-pair"><div><label for="municipality">Municipio</label><select id="municipality"><option value="">Todos</option></select></div><div><label for="city">Ciudad / localidad</label><select id="city"><option value="">Todas</option></select></div></div><label for="sport">Deporte</label><select id="sport"><option value="">Todos los deportes</option></select><label for="type">Tipo de instalación</label><select id="type"><option value="">Todos los espacios</option></select><label for="name">Nombre de la instalación</label><input id="name" placeholder="Busca entre los datos cargados"><p class="hint">Municipio y localidad se filtran cuando la fuente los proporciona. No implican acceso público.</p></section>
+    <details class="data-panel"><summary>Datos abiertos y cobertura</summary>
+      <p>La cobertura es parcial y depende de la fuente. INEGI incluye establecimientos deportivos; OSM permite ampliar las canchas de barrio, escolares y rurales.</p>
+      <p id="coverage">Consultando base local…</p>
+      <button id="import-denue">Descargar INEGI nacional</button>
+      <button id="import-state" class="secondary">OSM: descargar estado seleccionado</button>
+      <button id="import-all" class="secondary">OSM: ampliar a los 32 estados</button>
+      <label class="check"><input type="checkbox" id="force"> Actualizar estados OSM ya descargados</label>
+      <button id="cancel-import" class="secondary" hidden>Cancelar descarga</button>
+      <p id="import-status" role="status"></p>
+      <p>Los datos se guardan en tu equipo. Si Overpass no responde, la descarga se detiene y conserva los registros existentes. Puedes usar INEGI de forma independiente.</p>
+      <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap · ODbL</a><br>
+      <a href="https://www.inegi.org.mx/app/descarga/?ti=6" target="_blank" rel="noopener">INEGI / DENUE · descarga oficial</a><br>
+      <a href="https://photon.komoot.io/" target="_blank" rel="noopener">Búsqueda de direcciones: Photon / OSM</a>
+    </details>
+  </aside>
+  <section class="workspace" aria-label="Mapa y resultados">
+    <div class="map-toolbar"><div><span class="eyebrow">ATLAS DEPORTIVO</span><h2 id="map-heading">Un país en movimiento</h2></div><span class="count-pill"><strong id="total">0</strong> espacios encontrados</span></div>
+    <div class="map-wrap"><div id="map" aria-label="Mapa interactivo de instalaciones deportivas"></div><button id="national-view" class="map-home">Ver México</button><div class="map-caption"><span></span> Espacios reales · Datos abiertos</div><div id="map-notice" role="status" hidden></div></div>
+    <div class="results-head"><div><h2 id="results-title">Descubre dónde jugar</h2><p id="results-subtitle">Selecciona un punto para encontrar los 10 espacios más cercanos.</p></div><button id="more" class="secondary" hidden>Ver más</button></div>
+    <div id="results" class="results" aria-live="polite"></div>
+    <footer>Las distancias son en línea recta, no rutas. Verifica horarios y acceso con cada instalación.<br>Los conteos describen la base cargada; no son un censo nacional.</footer>
+  </section>
+</main>
+<dialog id="stats-dialog"><div class="section-title"><div><span class="eyebrow">EL DEPORTE EN DATOS</span><h2>Una mirada al territorio</h2></div><button id="stats-close" class="secondary">Cerrar</button></div><p id="stats-summary"></p><p class="hint">Conteos de la selección actual. Una instalación multideporte puede aparecer en varios deportes.</p><div class="stat-grid"><section><h3>Por estado</h3><div id="state-stats"></div></section><section><h3>Por municipio</h3><div id="municipality-stats"></div></section><section><h3>Por deporte</h3><div id="sport-stats"></div></section></div></dialog>
+<div id="toast" role="status" hidden></div>
+</body></html>
